@@ -1,8 +1,8 @@
 #Imagen de python
-FROM python3.9 
+FROM python:3.9 
 
 #Directotio de trabajo
-WORKDIR /pag
+WORKDIR /app
 
 #Copiar el archivo de dependencias e instalar
 COPY requirements.txt .
@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 5000
 
 #Ejecutar el flask
-CMD ["Python": "archivo.py"]
+CMD ["Python", "app.py"]
