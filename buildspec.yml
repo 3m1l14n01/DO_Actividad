@@ -3,7 +3,19 @@ version: 0.2
 phases:
   install:
     commands:
-    - echo "Installing..."
+      - echo "Installing..."
+      - pip install -r requirements.txt
   build:
     commands:
-    - docker build -t flask-app ./app
+      - echo "Construyendo imagen Docker..."
+      - docker build -t flask-app ./app
+  post_build:
+    commands:
+      - echo "Ejecutando deploy a S3..."
+      - chmod +x deploy.sh
+      - ./deploy.sh
+
+artifacts:
+  files:
+    - app/**/*
+  discard-paths: yes
