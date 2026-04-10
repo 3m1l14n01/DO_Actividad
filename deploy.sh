@@ -1,9 +1,20 @@
 #!/bin/bash
-set -e
 
-AWS_REGION="us-east-2"
-S3_BUCKET="codepipeline-us-east-2-5bd13784c431-41b7-92b0-2ef4594a151e"   # Ajusta con el nombre real de tu bucket S3
+BUCKET_NAME="codepipeline-us-east-2-5bd13784c431-41b7-92b0-2ef4594a151e"
+BACKUP_FILE="backup_$(date +%F).tar.gz"
+LOG_FILE="backup.log"
 
-echo "Copiando artefactos al bucket..."
-aws s3 cp ./app s3://$S3_BUCKET/ --recursive --region $AWS_REGION
-echo "Deploy completado en S3."
+echo "Iniciando respaldo..." | tee -a $LOG_FILE
+
+# Carpeta actual (donde está tu código en CodeBuild)
+SOURCE_DIR="."
+
+# Crear backup
+tar -czf $BACKUP_FILE $SOURCE_DIR >> $LOG_FILE 2>&1
+
+# Subir a S3
+if aws s3 cp $BACKUP_FILE s3://$BUCKET_NAME/ >> $LOG_FILE 2>&1; then
+    echo "Respaldo subido exitosamente." | tee -a $LOG_FILE
+else
+    echo "Error en la subida del respaldo." | tee -a $LOG_FILE
+fi
