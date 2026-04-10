@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BUCKET_NAME="codepipeline-us-east-2-5bd13784c431-41b7-92b0-2ef4594a151e"
+BUCKET_NAME="do-actividad1"
 BACKUP_FILE="backup_$(date +%F).tar.gz"
 LOG_FILE="backup.log"
 
